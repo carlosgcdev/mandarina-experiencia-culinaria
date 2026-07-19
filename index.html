@@ -1564,7 +1564,7 @@
           </div>
         </div>
         <div class="experiencia-image reveal-right">
-          <!-- Reemplaza "mesa.jpg" con el nombre de tu imagen dentro de la carpeta img -->
+          <!-- Reemplaza "comida2.jpeg" con el nombre de tu imagen dentro de la carpeta img -->
           <img src="img/comida2.jpeg" alt="Experiencia Mandarina" loading="lazy" />
         </div>
       </div>
@@ -1926,24 +1926,51 @@
       });
 
       // ------------------------------------------------------------
-      // 4. MOBILE NAV
+      // 4. MOBILE NAV - CORREGIDO
       // ------------------------------------------------------------
       const hamburger = document.getElementById('hamburger');
       const mobileNav = document.getElementById('mobileNav');
 
-      hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        mobileNav.classList.toggle('open');
-        document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+      // Función para abrir el menú
+      function openMobileMenu() {
+        mobileNav.classList.add('open');
+        hamburger.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Función para cerrar el menú
+      function closeMobileMenu() {
+        mobileNav.classList.remove('open');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      // Evento click en el botón hamburguesa (alterna)
+      hamburger.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (mobileNav.classList.contains('open')) {
+          closeMobileMenu();
+        } else {
+          openMobileMenu();
+        }
       });
 
+      // Cerrar menú al hacer clic en un enlace (incluyendo el botón de reserva)
       document.querySelectorAll('.mobile-link').forEach(link => {
-        link.addEventListener('click', () => {
-          hamburger.classList.remove('active');
-          mobileNav.classList.remove('open');
-          document.body.style.overflow = '';
+        link.addEventListener('click', function(e) {
+          // Si es un enlace interno, cerramos el menú después de un breve delay para que la navegación sea suave
+          const href = this.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            // Dejamos que el scroll ocurra después de cerrar el menú
+            closeMobileMenu();
+            // El scroll se maneja en el evento de smooth scroll de más abajo
+          } else {
+            closeMobileMenu();
+          }
         });
       });
+
+      // También cerrar al hacer clic fuera del menú (en el overlay) no es necesario porque el menú ocupa toda la pantalla
 
       // ------------------------------------------------------------
       // 5. SCROLL REVEAL
