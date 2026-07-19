@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandarina · Experiencia Culinaria</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome (íconos) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES
+       ============================================================ */
+    :root {
+      --color-black: #0B0B0B;
+      --color-ivory: #F3EFE7;
+      --color-olive: #2E3B2E;
+      --color-mandarina: #D97A3E;
+      --color-stone: #7E7A73;
+      --color-white: #FFFFFF;
+      --color-gray-light: #E8E4DB;
+
+      --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+      --font-sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+
+      --transition-smooth: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --transition-slow: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --shadow-subtle: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --shadow-medium: 0 20px 60px rgba(0, 0, 0, 0.15);
+
+      --nav-height: 80px;
+    }
+
+    /* ============================================================
+       RESET Y BASE
+       ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-ivory);
+      color: var(--color-black);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+    }
+
+    /* ============================================================
+       CURSOR PERSONALIZADO (Desktop)
+       ============================================================ */
+    @media (min-width: 1025px) {
+      body {
+        cursor: none;
+      }
+      .cursor-dot {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background-color: var(--color-mandarina);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s, height 0.2s, background 0.2s;
+        will-change: transform;
+      }
+      .cursor-ring {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(217, 122, 62, 0.4);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: width 0.4s, height 0.4s, border 0.4s;
+        will-change: transform;
+      }
+      .cursor-ring.hover {
+        width: 60px;
+        height: 60px;
+        border-color: var(--color-mandarina);
+        background: rgba(217, 122, 62, 0.06);
+      }
+    }
+
+    /* ============================================================
+       SCROLLBAR
+       ============================================================ */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-ivory);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-mandarina);
+      border-radius: 8px;
+    }
+
+    /* ============================================================
+       NAVBAR
+       ============================================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: transparent;
+      transition: var(--transition-smooth);
+      border-bottom: 1px solid transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(11, 11, 11, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom-color: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+    .navbar .logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    .navbar .logo .brand {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: var(--color-white);
+      transition: var(--transition-smooth);
+    }
+    .navbar .logo .sub {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 2px;
+      transition: var(--transition-smooth);
+    }
+    .navbar.scrolled .logo .brand {
+      font-size: 20px;
+    }
+    .navbar.scrolled .logo .sub {
+      font-size: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links li a {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.75);
+      transition: var(--transition-smooth);
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--color-mandarina);
+      transition: var(--transition-smooth);
+    }
+    .nav-links li a:hover {
+      color: var(--color-white);
+    }
+    .nav-links li a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-white);
+      background: rgba(217, 122, 62, 0.2);
+      border: 1px solid rgba(217, 122, 62, 0.3);
+      padding: 10px 24px;
+      border-radius: 50px;
+      transition: var(--transition-smooth);
+      margin-left: 10px;
+    }
+    .nav-cta:hover {
+      background: var(--color-mandarina);
+      border-color: var(--color-mandarina);
+      color: var(--color-black);
+    }
+
+    /* Hamburguesa */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      z-index: 1100;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--color-white);
+      transition: var(--transition-smooth);
+      transform-origin: center;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Mobile nav overlay */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: var(--color-black);
+      z-index: 1050;
+      padding: 100px 40px 40px;
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+    .mobile-nav.open {
+      right: 0;
+    }
+    .mobile-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .mobile-nav ul li a {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--color-white);
+      letter-spacing: 2px;
+      transition: var(--transition-smooth);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 12px;
+      display: block;
+    }
+    .mobile-nav ul li a:hover {
+      color: var(--color-mandarina);
+      padding-left: 12px;
+    }
+    .mobile-nav .mobile-cta {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-black);
+      background: var(--color-mandarina);
+      padding: 16px 0;
+      text-align: center;
+      border-radius: 50px;
+      margin-top: 30px;
+      transition: var(--transition-smooth);
+    }
+    .mobile-nav .mobile-cta:hover {
+      background: var(--color-white);
+    }
+    .mobile-nav .mobile-footer {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 1px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 992px) {
+      .nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .navbar {
+        padding: 0 24px;
+      }
+      .navbar .logo .brand {
+        font-size: 20px;
+      }
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 680px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--color-black);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1559339352-11d8e80e7e8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center center / cover no-repeat;
+      transform: scale(1.05);
+      transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .hero.loaded .hero-bg {
+      transform: scale(1);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(11, 11, 11, 0.35);
+      background: linear-gradient(135deg, rgba(11, 11, 11, 0.55) 0%, rgba(11, 11, 11, 0.15) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1000px;
+      padding: 0 30px;
+      text-align: left;
+      color: var(--color-white);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: var(--transition-slow);
+      transition-delay: 0.3s;
+    }
+    .hero.loaded .hero-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hero-content .location-tag {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 16px;
+    }
+    .hero-content h1 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(48px, 10vw, 110px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+    .hero-content h1 .accent {
+      color: var(--color-mandarina);
+      font-style: italic;
+    }
+    .hero-content p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: clamp(16px, 2vw, 22px);
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 520px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .btn-primary {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      background: var(--color-mandarina);
+      color: var(--color-black);
+      border-radius: 50px;
+      transition: var(--transition-smooth);
+      border: 1px solid var(--color-mandarina);
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--color-white);
+      border-color: var(--color-white);
+    }
+    .btn-secondary {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      background: transparent;
+      color: var(--color-white);
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: var(--transition-smooth);
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--color-white);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: floatDown 2.4s ease-in-out infinite;
+    }
+    .scroll-indicator i {
+      font-size: 18px;
+    }
+    @keyframes floatDown {
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 42px;
+      }
+      .hero-content p {
+        font-size: 16px;
+      }
+      .hero-buttons .btn-primary,
+      .hero-buttons .btn-secondary {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+      }
+      .scroll-indicator {
+        bottom: 24px;
+        font-size: 10px;
+      }
+    }
+
+    /* ============================================================
+       SECCIÓN MANIFIESTO
+       ============================================================ */
+    .manifesto {
+      padding: 120px 0 100px;
+      background: var(--color-ivory);
+      position: relative;
+    }
+    .manifesto::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 60px;
+      background: var(--color-mandarina);
+      opacity: 0.3;
+    }
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .manifesto h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .manifesto h2 .highlight {
+      color: var(--color-mandarina);
+      font-style: italic;
+    }
+    .manifesto p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--color-stone);
+      line-height: 1.8;
+      max-width: 460px;
+      margin-top: 20px;
+    }
+    .manifesto .line-deco {
+      width: 40px;
+      height: 2px;
+      background: var(--color-mandarina);
+      margin-top: 30px;
+    }
+    @media (max-width: 768px) {
+      .manifesto-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .manifesto {
+        padding: 80px 0 60px;
+      }
+      .manifesto p {
+        max-width: 100%;
+      }
+    }
+
+    /* ============================================================
+       SECCIÓN EXPERIENCIA
+       ============================================================ */
+    .experiencia {
+      padding: 80px 0 120px;
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+    .experiencia-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .experiencia-text h3 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+    .experiencia-text h3 .accent {
+      color: var(--color-mandarina);
+      font-style: italic;
+    }
+    .experiencia-text p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 17px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.8;
+      max-width: 440px;
+    }
+    .experiencia-list {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .experiencia-list .item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 16px;
+    }
+    .experiencia-list .item span {
+      font-weight: 500;
+      color: var(--color-mandarina);
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .experiencia-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .experiencia-image img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .experiencia-image:hover img {
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 768px) {
+      .experiencia-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .experiencia-image img {
+        height: 300px;
+      }
+      .experiencia {
+        padding: 60px 0 80px;
+      }
+      .experiencia-text p {
+        max-width: 100%;
+      }
+    }
+
+    /* ============================================================
+       SECCIÓN MENÚ PREMIUM (sin platillo destacado)
+       ============================================================ */
+    .menu-section {
+      padding: 100px 0 80px;
+      background: var(--color-ivory);
+    }
+    .menu-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .menu-header h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: -0.01em;
+    }
+    .menu-header p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      color: var(--color-stone);
+      font-size: 18px;
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding-bottom: 8px;
+    }
+    .menu-tab {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border-radius: 50px;
+      color: var(--color-stone);
+      transition: var(--transition-smooth);
+      background: transparent;
+    }
+    .menu-tab.active {
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+    .menu-tab:hover:not(.active) {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .menu-panels {
+      position: relative;
+    }
+    .menu-panel {
+      display: none;
+      animation: fadePanel 0.5s ease;
+    }
+    .menu-panel.active {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 50px;
+    }
+    @keyframes fadePanel {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .menu-item {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .menu-item .info {
+      flex: 1;
+    }
+    .menu-item .name {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .menu-item .desc {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--color-stone);
+      line-height: 1.5;
+      max-width: 400px;
+    }
+    .menu-item .price {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 16px;
+      color: var(--color-mandarina);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    .menu-cta-wrap {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .btn-outline {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 40px;
+      border: 1px solid var(--color-black);
+      border-radius: 50px;
+      transition: var(--transition-smooth);
+      background: transparent;
+      color: var(--color-black);
+    }
+    .btn-outline:hover {
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+
+    @media (max-width: 768px) {
+      .menu-panel.active {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      .menu-tab {
+        font-size: 12px;
+        padding: 6px 16px;
+      }
+      .menu-section {
+        padding: 60px 0 50px;
+      }
+      .menu-item .desc {
+        font-size: 13px;
+      }
+    }
+
+    /* ============================================================
+       SECCIÓN ARTESANAL (sin imágenes, con emojis)
+       ============================================================ */
+    .artesanal {
+      padding: 100px 0;
+      background: var(--color-black);
+      color: var(--color-white);
+      text-align: center;
+      position: relative;
+    }
+    .artesanal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 60px;
+      background: var(--color-mandarina);
+      opacity: 0.2;
+    }
+    .artesanal .container {
+      max-width: 900px;
+    }
+    .artesanal h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(32px, 4.5vw, 50px);
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+    .artesanal .lead {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 600px;
+      margin: 0 auto 50px;
+      line-height: 1.7;
+    }
+    .artesanal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px 30px;
+      margin-top: 20px;
+    }
+    .artesanal-item {
+      padding: 30px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      transition: var(--transition-smooth);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .artesanal-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-4px);
+    }
+    .artesanal-item .emoji {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .artesanal-item h4 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .artesanal-item p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.6;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .artesanal-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .artesanal {
+        padding: 60px 0;
+      }
+    }
+
+    /* ============================================================
+       UBICACIÓN
+       ============================================================ */
+    .ubicacion {
+      padding: 100px 0;
+      background: var(--color-ivory);
+    }
+    .ubicacion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+    .ubicacion-info h3 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(28px, 3.5vw, 42px);
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+    .ubicacion-info address {
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--color-stone);
+      line-height: 1.8;
+    }
+    .ubicacion-info .detail {
+      margin-top: 20px;
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--color-stone);
+    }
+    .ubicacion-info .detail strong {
+      color: var(--color-black);
+      font-weight: 500;
+    }
+    .ubicacion-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .ubicacion-buttons .btn-primary {
+      background: var(--color-black);
+      color: var(--color-white);
+      border-color: var(--color-black);
+      padding: 14px 32px;
+      font-size: 13px;
+    }
+    .ubicacion-buttons .btn-primary:hover {
+      background: var(--color-mandarina);
+      border-color: var(--color-mandarina);
+      color: var(--color-black);
+    }
+    .ubicacion-buttons .btn-secondary-dark {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: 1px solid var(--color-black);
+      border-radius: 50px;
+      transition: var(--transition-smooth);
+      background: transparent;
+      color: var(--color-black);
+      display: inline-block;
+    }
+    .ubicacion-buttons .btn-secondary-dark:hover {
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+    .ubicacion-social {
+      margin-top: 28px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .ubicacion-social a {
+      font-size: 22px;
+      color: var(--color-black);
+      transition: var(--transition-smooth);
+      opacity: 0.6;
+    }
+    .ubicacion-social a:hover {
+      opacity: 1;
+      color: var(--color-mandarina);
+      transform: translateY(-2px);
+    }
+    .ubicacion-social .label {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: var(--color-stone);
+      margin-right: 4px;
+    }
+    .ubicacion-map {
+      border-radius: 4px;
+      overflow: hidden;
+      height: 320px;
+      position: relative;
+    }
+    .ubicacion-map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    @media (max-width: 768px) {
+      .ubicacion-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .ubicacion-map {
+        height: 220px;
+      }
+      .ubicacion {
+        padding: 60px 0;
+      }
+    }
+
+    /* ============================================================
+       CTA FINAL
+       ============================================================ */
+    .cta-final {
+      padding: 120px 0;
+      background: var(--color-black);
+      color: var(--color-white);
+      text-align: center;
+    }
+    .cta-final h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(36px, 6vw, 72px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+    .cta-final h2 .accent {
+      color: var(--color-mandarina);
+      font-style: italic;
+    }
+    .cta-final .btn-primary {
+      font-size: 16px;
+      padding: 18px 60px;
+      margin-top: 20px;
+      display: inline-block;
+    }
+    .cta-final .logo-mini {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 18px;
+      letter-spacing: 4px;
+      color: rgba(255, 255, 255, 0.15);
+      margin-top: 48px;
+    }
+    @media (max-width: 768px) {
+      .cta-final {
+        padding: 80px 0;
+      }
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      padding: 48px 0 32px;
+      background: var(--color-black);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .footer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+    .footer .brand {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--color-white);
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+    .footer .brand small {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.2);
+      margin-top: 2px;
+    }
+    .footer .links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .footer .links a {
+      color: rgba(255, 255, 255, 0.4);
+      transition: var(--transition-smooth);
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    .footer .links a:hover {
+      color: var(--color-white);
+    }
+    .footer .links .social-link {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.25);
+      transition: var(--transition-smooth);
+    }
+    .footer .links .social-link:hover {
+      color: var(--color-mandarina);
+      transform: translateY(-2px);
+    }
+    .footer .copy {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.15);
+      text-align: right;
+    }
+    @media (max-width: 768px) {
+      .footer-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+      .footer .copy {
+        text-align: left;
+        width: 100%;
+      }
+      .footer .links {
+        gap: 20px;
+      }
+    }
+
+    /* ============================================================
+       BOTÓN VOLVER ARRIBA
+       ============================================================ */
+    .back-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 900;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--color-mandarina);
+      color: var(--color-black);
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: var(--shadow-subtle);
+      transition: var(--transition-smooth);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+    }
+    .back-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .back-top:hover {
+      background: var(--color-white);
+      transform: scale(1.05);
+    }
+
+    /* ============================================================
+       MODAL MENÚ COMPLETO
+       ============================================================ */
+    .menu-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(11, 11, 11, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+    .menu-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .menu-modal-content {
+      background: var(--color-ivory);
+      max-width: 900px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 50px 50px 40px;
+      border-radius: 8px;
+      position: relative;
+      transform: scale(0.96) translateY(20px);
+      transition: var(--transition-smooth);
+    }
+    .menu-modal.open .menu-modal-content {
+      transform: scale(1) translateY(0);
+    }
+    .menu-modal-content .close-modal {
+      position: sticky;
+      top: 0;
+      float: right;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: var(--color-black);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      z-index: 10;
+      padding: 4px 8px;
+    }
+    .menu-modal-content .close-modal:hover {
+      transform: rotate(90deg);
+      color: var(--color-mandarina);
+    }
+    .menu-modal-content h2 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+    .menu-modal-content .sub {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      color: var(--color-stone);
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .menu-modal-content .modal-category {
+      margin-bottom: 30px;
+    }
+    .menu-modal-content .modal-category h3 {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 22px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    .menu-modal-content .modal-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .menu-modal-content .modal-item .name {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 17px;
+    }
+    .menu-modal-content .modal-item .desc {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--color-stone);
+      max-width: 500px;
+    }
+    .menu-modal-content .modal-item .price {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 16px;
+      color: var(--color-mandarina);
+      white-space: nowrap;
+    }
+    @media (max-width: 768px) {
+      .menu-modal-content {
+        padding: 30px 20px;
+      }
+      .menu-modal-content .modal-item {
+        flex-wrap: wrap;
+      }
+      .menu-modal-content .modal-item .desc {
+        max-width: 100%;
+        font-size: 13px;
+      }
+    }
+
+    /* ============================================================
+       MODAL RESERVA (FORMULARIO WHATSAPP)
+       ============================================================ */
+    .reserva-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2100;
+      background: rgba(11, 11, 11, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+    .reserva-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .reserva-modal-content {
+      background: var(--color-ivory);
+      max-width: 520px;
+      width: 100%;
+      padding: 40px 35px 35px;
+      border-radius: 8px;
+      position: relative;
+      transform: scale(0.96) translateY(20px);
+      transition: var(--transition-smooth);
+    }
+    .reserva-modal.open .reserva-modal-content {
+      transform: scale(1) translateY(0);
+    }
+    .reserva-modal-content .close-reserva {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: var(--color-black);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .reserva-modal-content .close-reserva:hover {
+      transform: rotate(90deg);
+      color: var(--color-mandarina);
+    }
+    .reserva-modal-content h2 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+    .reserva-modal-content .sub {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      color: var(--color-stone);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .reserva-modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .reserva-modal-content label {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: var(--color-black);
+      margin-bottom: 2px;
+    }
+    .reserva-modal-content input,
+    .reserva-modal-content select,
+    .reserva-modal-content textarea {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 15px;
+      padding: 12px 16px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      background: var(--color-white);
+      color: var(--color-black);
+      transition: var(--transition-smooth);
+      width: 100%;
+    }
+    .reserva-modal-content input:focus,
+    .reserva-modal-content select:focus,
+    .reserva-modal-content textarea:focus {
+      outline: none;
+      border-color: var(--color-mandarina);
+      box-shadow: 0 0 0 2px rgba(217, 122, 62, 0.2);
+    }
+    .reserva-modal-content textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .reserva-modal-content .btn-primary {
+      width: 100%;
+      text-align: center;
+      padding: 14px;
+      font-size: 15px;
+      margin-top: 8px;
+    }
+    .reserva-modal-content .btn-primary:hover {
+      background: var(--color-black);
+      color: var(--color-white);
+      border-color: var(--color-black);
+    }
+    @media (max-width: 768px) {
+      .reserva-modal-content {
+        padding: 30px 20px;
+      }
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: var(--transition-slow);
+      transition-delay: 0.1s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: var(--transition-slow);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: var(--transition-slow);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor personalizado -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="logo">
+      <span class="brand">MANDARINA</span>
+      <span class="sub">Experiencia Culinaria</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#experiencia">Experiencia</a></li>
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#artesanal">Nuestra esencia</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+      <li><button class="nav-cta" id="navReservarBtn">Reservar mesa</button></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="#experiencia" class="mobile-link">Experiencia</a></li>
+      <li><a href="#menu" class="mobile-link">Menú</a></li>
+      <li><a href="#artesanal" class="mobile-link">Nuestra esencia</a></li>
+      <li><a href="#ubicacion" class="mobile-link">Ubicación</a></li>
+    </ul>
+    <div>
+      <button class="mobile-cta mobile-link" id="mobileReservarBtn">Reservar mesa</button>
+      <div class="mobile-footer">Av. Guardalajara 38, Centro · San Juan de los Lagos</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="location-tag">San Juan de los Lagos · Jalisco</div>
+      <h1>Una experiencia <br /><span class="accent">que se saborea</span></h1>
+      <p>Cocina contemporánea, ingredientes con intención y una mesa para disfrutar sin prisa.</p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn-primary">Explorar el menú</a>
+        <button class="btn-secondary" id="heroReservarBtn">Reservar mesa</button>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Descubrir</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MANIFIESTO
+       ============================================================ -->
+  <section class="manifesto" id="manifiesto">
+    <div class="container">
+      <div class="manifesto-grid reveal">
+        <h2>"No venimos a servir <span class="highlight">lo de siempre</span>."</h2>
+        <div>
+          <p>En Mandarina creemos que una buena mesa puede convertirse en un recuerdo. Cada platillo cuenta una historia, cada ingrediente tiene un propósito.</p>
+          <div class="line-deco"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCIA
+       ============================================================ -->
+  <section class="experiencia" id="experiencia">
+    <div class="container">
+      <div class="experiencia-grid">
+        <div class="experiencia-text reveal-left">
+          <h3>La mesa <br /><span class="accent">como experiencia</span></h3>
+          <p>Sabores que despiertan la curiosidad. Platos hechos para compartir. Detalles que hacen que cada visita se sienta diferente.</p>
+          <div class="experiencia-list">
+            <div class="item"><span>01</span> SABOR</div>
+            <div class="item"><span>02</span> DETALLE</div>
+            <div class="item"><span>03</span> MOMENTO</div>
+          </div>
+        </div>
+        <div class="experiencia-image reveal-right">
+          <!-- Reemplaza "mesa.jpg" con el nombre de tu imagen dentro de la carpeta img -->
+          <img src="img/comida2.jpeg" alt="Experiencia Mandarina" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MENÚ PREMIUM (sin platillo destacado)
+       ============================================================ -->
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="menu-header reveal">
+        <h2>El menú</h2>
+        <p>Una carta creada para explorar.</p>
+      </div>
+
+      <div class="menu-tabs" id="menuTabs">
+        <button class="menu-tab active" data-category="entradas">Entradas</button>
+        <button class="menu-tab" data-category="fuertes">Platos fuertes</button>
+        <button class="menu-tab" data-category="postres">Postres</button>
+        <button class="menu-tab" data-category="cafe">Café</button>
+      </div>
+
+      <div class="menu-panels" id="menuPanels">
+        <!-- ENTRADAS -->
+        <div class="menu-panel active" data-category="entradas">
+          <div class="menu-item"><div class="info"><div class="name">Torre de Mariscos</div><div class="desc">Camarón, pulpo, callo de almeja, atún en aguachile de la casa, chile serrano y manzana verde.</div></div><div class="price">$145</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Ensalada de Cítricos</div><div class="desc">Mezcla de diferentes tomates y cítricos de temporada, vinagreta de vino tinto y mousse de coco.</div></div><div class="price">$105</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Ensalada de Espinaca y Queso Cabra</div><div class="desc">Espinaca baby, cubos de sandía, fresa, croquetas de queso de cabra y reducción de balsámico.</div></div><div class="price">$105</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Empanadas</div><div class="desc">Trío de empanadas (res, poblano y elote), ensalada de la casa y queso fresco.</div></div><div class="price">$110</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Panela al Josper</div><div class="desc">Panela fresca asada a las finas hierba y pan de la casa como acompañamiento.</div></div><div class="price">$95</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Tacos de Costilla Braseada</div><div class="desc">Tortillas hechas a mano, costilla braseada, salsa mexicana, encurtido de cebolla, guacamole, cilantro y ceniza de chiles.</div></div><div class="price">$95</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Panela Especial</div><div class="desc">Panela horneada, servida con chistorra doradita y tortillas de harina para acompañar.</div></div><div class="price">$185</div></div>
+        </div>
+
+        <!-- PLATOS FUERTES -->
+        <div class="menu-panel" data-category="fuertes">
+          <div class="menu-item"><div class="info"><div class="name">Camarones Orientales</div><div class="desc">Bowl de arroz con camarones, bañados en salsa oriental.</div></div><div class="price">$165</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Lasagna de Res</div><div class="desc">Pasta artesanal, salsa bolognesa y mezcla de quesos, acompañada de pan de la casa.</div></div><div class="price">$135</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Salmón Teriyaki</div><div class="desc">Salmón marinado en salsa Teriyaki acompañado de vegetales y arroz blanco.</div></div><div class="price">$210</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Fettuccini</div><div class="desc">Pasta elaborada artesanalmente bañada con nuestras salsas pomodoro o crema al pesto de albahaca, ambas acompañadas de camarón y queso parmesano.</div></div><div class="price">$165</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Pulpo al Josper</div><div class="desc">Pulpo braseado en josper, acompañado de puré de papa y ensalada de la casa.</div></div><div class="price">$190</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Huachinango Thai</div><div class="desc">Huachinango completo sin espinas, bañado en salsa thai. Ensalada de la casa y arroz al natural acompañando.</div></div><div class="price">$310</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Filetto con Crema de Hongos</div><div class="desc">Filete de res grilleado al josper, bañado en una crema de hongos. Acompañado de puré de papa y ensalada de la casa.</div></div><div class="price">$195</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Rack de Cerdo</div><div class="desc">Chuleta de cerdo grilleada en josper, mantequilla de tomillo, puré de papa y ensalada de la casa.</div></div><div class="price">$195</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Roullete de Pollo</div><div class="desc">Pechuga de pollo rellena de quesos, envuelta en tocino crujiente y bañado con una salsa de champiñones y chipotle. Acompañada con pasta pomodoro y ensalada.</div></div><div class="price">$165</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Hamburguesa de Cordero</div><div class="desc">Pan artesanal, carne de cordero, cremoso de menta y pepino, cebolla caramelizada, manzana grilleada en josper y espinaca. Acompañada con papas a la francesa.</div></div><div class="price">$125</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Salmón Dijon</div><div class="desc">Salmón horneado, bañado con crema de mostaza Dijon acompañado de arroz blanco y vegetales.</div></div><div class="price">$210</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Ravioles</div><div class="desc">Rellenos de salmón o portobello con una crema primavera o de queso ricotta y espinaca con una salsa pomodoro.</div></div><div class="price">$145</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Camarones Tempura</div><div class="desc">Camarones con capeado especial, con salsa de mango acompañados de arroz blanco y ensalada de la casa.</div></div><div class="price">$165</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Arrachera</div><div class="desc">Acompañada de puré de papa y ensalada.</div></div><div class="price">$195</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Steak en Salsa de Cacahuate</div><div class="desc">Arrachera en fajitas con una salsa especial de cacahuate, acompañada de arroz blanco, portobello y espárragos.</div></div><div class="price">$195</div></div>
+        </div>
+
+        <!-- POSTRES -->
+        <div class="menu-panel" data-category="postres">
+          <div class="menu-item"><div class="info"><div class="name">Volcán de Cajeta</div><div class="desc">Coulí de frutos rojos, volcán de cajeta, frutos rojos acompañado de helado.</div></div><div class="price">$120</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Tarta de Manzana</div><div class="desc">Base de galleta crujiente, compota de manzana, arándano y nuez, acompañado de helado.</div></div><div class="price">$120</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Tiramisú</div><div class="desc">Bizcocho de almendra, jarabe de café, mousse de licor 43, frutos rojos, helado y láminas de cocoa.</div></div><div class="price">$110</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Tarta de Chocolate</div><div class="desc">Tarta de chocolate con café, frutos rojos, y helado.</div></div><div class="price">$120</div></div>
+        </div>
+
+        <!-- CAFÉ -->
+        <div class="menu-panel" data-category="cafe">
+          <div class="menu-item"><div class="info"><div class="name">Americano</div></div><div class="price">$40</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Capuchino</div></div><div class="price">$50</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Carajillo</div></div><div class="price">$120</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Expresso</div></div><div class="price">$40</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Té</div></div><div class="price">$35</div></div>
+          <div class="menu-item"><div class="info"><div class="name">Affogato</div></div><div class="price">$65</div></div>
+        </div>
+      </div>
+
+      <div class="menu-cta-wrap">
+        <button class="btn-outline" id="openMenuModal">Ver carta completa</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN ARTESANAL (sin imágenes, con emojis)
+       ============================================================ -->
+  <section class="artesanal" id="artesanal">
+    <div class="container reveal">
+      <h2>El pan. Las tortillas. La pasta.</h2>
+      <p class="lead">Elaboramos el pan en nuestros propios hornos, las tortillas son hechas a mano y nuestra pasta es completamente artesanal.</p>
+      <div class="artesanal-grid">
+        <div class="artesanal-item">
+          <span class="emoji">🍞</span>
+          <h4>Pan</h4>
+          <p>Horneado a diario con masa madre y harinas de origen.</p>
+        </div>
+        <div class="artesanal-item">
+          <span class="emoji">🌽</span>
+          <h4>Tortillas</h4>
+          <p>Hechas a mano con maíz nixtamalizado, sabor auténtico.</p>
+        </div>
+        <div class="artesanal-item">
+          <span class="emoji">🍝</span>
+          <h4>Pasta</h4>
+          <p>Elaborada a mano con sémola de trigo y huevos frescos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       UBICACIÓN
+       ============================================================ -->
+  <section class="ubicacion" id="ubicacion">
+    <div class="container">
+      <div class="ubicacion-grid">
+        <div class="ubicacion-info reveal-left">
+          <h3>Encuéntranos <br />en San Juan de los Lagos</h3>
+          <address>
+            Av. Guardalajara 38, Centro<br />
+            47000 San Juan de los Lagos, Jal.
+          </address>
+          <div class="detail"><strong>Teléfono:</strong> 395 106 7061</div>
+          <div class="ubicacion-buttons">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Guardalajara+38,+Centro,+47000+San+Juan+de+los+Lagos,+Jal." target="_blank" class="btn-primary">Cómo llegar</a>
+            <a href="tel:3951067061" class="btn-secondary-dark">Llamar al restaurante</a>
+          </div>
+          <div class="ubicacion-social">
+            <span class="label">Síguenos</span>
+            <a href="https://www.facebook.com/Mandarina.sanjuan/?locale=es_LA" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/mandarina.sanjuan/?hl=es" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="ubicacion-map reveal-right">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d929.6841680460072!2d-102.33642394025651!3d21.242288211396243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x84297198913daded%3A0x33d092d2fd626c6d!2sMandarina%20Experiencia%20Culinaria!5e0!3m2!1ses-419!2smx!4v1784423669336!5m2!1ses-419!2smx" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA FINAL
+       ============================================================ -->
+  <section class="cta-final" id="reservar">
+    <div class="container reveal">
+      <h2>Tu próxima <br /><span class="accent">experiencia</span> comienza en la mesa.</h2>
+      <button class="btn-primary" id="ctaReservarBtn">Reservar mesa</button>
+      <div class="logo-mini">MANDARINA</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="brand">
+          MANDARINA
+          <small>Experiencia Culinaria</small>
+        </div>
+        <div class="links">
+          <a href="#experiencia">Experiencia</a>
+          <a href="#menu">Menú</a>
+          <a href="#ubicacion">Ubicación</a>
+          <a href="https://www.facebook.com/Mandarina.sanjuan/?locale=es_LA" target="_blank" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/mandarina.sanjuan/?hl=es" target="_blank" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="copy">© 2026 Mandarina Experiencia Culinaria</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       BOTÓN VOLVER ARRIBA
+       ============================================================ -->
+  <button class="back-top" id="backTop" aria-label="Volver arriba">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- ============================================================
+       MODAL MENÚ COMPLETO
+       ============================================================ -->
+  <div class="menu-modal" id="menuModal">
+    <div class="menu-modal-content">
+      <button class="close-modal" id="closeMenuModal">&times;</button>
+      <h2>Carta completa</h2>
+      <div class="sub">Mandarina · Experiencia Culinaria</div>
+
+      <div class="modal-category">
+        <h3>Entradas</h3>
+        <div class="modal-item"><div><div class="name">Torre de Mariscos</div><div class="desc">Camarón, pulpo, callo de almeja, atún en aguachile de la casa, chile serrano y manzana verde.</div></div><div class="price">$145</div></div>
+        <div class="modal-item"><div><div class="name">Ensalada de Cítricos</div><div class="desc">Mezcla de diferentes tomates y cítricos de temporada, vinagreta de vino tinto y mousse de coco.</div></div><div class="price">$105</div></div>
+        <div class="modal-item"><div><div class="name">Ensalada de Espinaca y Queso Cabra</div><div class="desc">Espinaca baby, cubos de sandía, fresa, croquetas de queso de cabra y reducción de balsámico.</div></div><div class="price">$105</div></div>
+        <div class="modal-item"><div><div class="name">Empanadas</div><div class="desc">Trío de empanadas (res, poblano y elote), ensalada de la casa y queso fresco.</div></div><div class="price">$110</div></div>
+        <div class="modal-item"><div><div class="name">Panela al Josper</div><div class="desc">Panela fresca asada a las finas hierba y pan de la casa como acompañamiento.</div></div><div class="price">$95</div></div>
+        <div class="modal-item"><div><div class="name">Tacos de Costilla Braseada</div><div class="desc">Tortillas hechas a mano, costilla braseada, salsa mexicana, encurtido de cebolla, guacamole, cilantro y ceniza de chiles.</div></div><div class="price">$95</div></div>
+        <div class="modal-item"><div><div class="name">Panela Especial</div><div class="desc">Panela horneada, servida con chistorra doradita y tortillas de harina para acompañar.</div></div><div class="price">$185</div></div>
+      </div>
+
+      <div class="modal-category">
+        <h3>Platos fuertes</h3>
+        <div class="modal-item"><div><div class="name">Camarones Orientales</div><div class="desc">Bowl de arroz con camarones, bañados en salsa oriental.</div></div><div class="price">$165</div></div>
+        <div class="modal-item"><div><div class="name">Lasagna de Res</div><div class="desc">Pasta artesanal, salsa bolognesa y mezcla de quesos, acompañada de pan de la casa.</div></div><div class="price">$135</div></div>
+        <div class="modal-item"><div><div class="name">Salmón Teriyaki</div><div class="desc">Salmón marinado en salsa Teriyaki acompañado de vegetales y arroz blanco.</div></div><div class="price">$210</div></div>
+        <div class="modal-item"><div><div class="name">Fettuccini</div><div class="desc">Pasta elaborada artesanalmente bañada con nuestras salsas pomodoro o crema al pesto de albahaca, ambas acompañadas de camarón y queso parmesano.</div></div><div class="price">$165</div></div>
+        <div class="modal-item"><div><div class="name">Pulpo al Josper</div><div class="desc">Pulpo braseado en josper, acompañado de puré de papa y ensalada de la casa.</div></div><div class="price">$190</div></div>
+        <div class="modal-item"><div><div class="name">Huachinango Thai</div><div class="desc">Huachinango completo sin espinas, bañado en salsa thai. Ensalada de la casa y arroz al natural acompañando.</div></div><div class="price">$310</div></div>
+        <div class="modal-item"><div><div class="name">Filetto con Crema de Hongos</div><div class="desc">Filete de res grilleado al josper, bañado en una crema de hongos. Acompañado de puré de papa y ensalada de la casa.</div></div><div class="price">$195</div></div>
+        <div class="modal-item"><div><div class="name">Rack de Cerdo</div><div class="desc">Chuleta de cerdo grilleada en josper, mantequilla de tomillo, puré de papa y ensalada de la casa.</div></div><div class="price">$195</div></div>
+        <div class="modal-item"><div><div class="name">Roullete de Pollo</div><div class="desc">Pechuga de pollo rellena de quesos, envuelta en tocino crujiente y bañado con una salsa de champiñones y chipotle. Acompañada con pasta pomodoro y ensalada.</div></div><div class="price">$165</div></div>
+        <div class="modal-item"><div><div class="name">Hamburguesa de Cordero</div><div class="desc">Pan artesanal, carne de cordero, cremoso de menta y pepino, cebolla caramelizada, manzana grilleada en josper y espinaca. Acompañada con papas a la francesa.</div></div><div class="price">$125</div></div>
+        <div class="modal-item"><div><div class="name">Salmón Dijon</div><div class="desc">Salmón horneado, bañado con crema de mostaza Dijon acompañado de arroz blanco y vegetales.</div></div><div class="price">$210</div></div>
+        <div class="modal-item"><div><div class="name">Ravioles</div><div class="desc">Rellenos de salmón o portobello con una crema primavera o de queso ricotta y espinaca con una salsa pomodoro.</div></div><div class="price">$145</div></div>
+        <div class="modal-item"><div><div class="name">Camarones Tempura</div><div class="desc">Camarones con capeado especial, con salsa de mango acompañados de arroz blanco y ensalada de la casa.</div></div><div class="price">$165</div></div>
+        <div class="modal-item"><div><div class="name">Arrachera</div><div class="desc">Acompañada de puré de papa y ensalada.</div></div><div class="price">$195</div></div>
+        <div class="modal-item"><div><div class="name">Steak en Salsa de Cacahuate</div><div class="desc">Arrachera en fajitas con una salsa especial de cacahuate, acompañada de arroz blanco, portobello y espárragos.</div></div><div class="price">$195</div></div>
+      </div>
+
+      <div class="modal-category">
+        <h3>Postres</h3>
+        <div class="modal-item"><div><div class="name">Volcán de Cajeta</div><div class="desc">Coulí de frutos rojos, volcán de cajeta, frutos rojos acompañado de helado.</div></div><div class="price">$120</div></div>
+        <div class="modal-item"><div><div class="name">Tarta de Manzana</div><div class="desc">Base de galleta crujiente, compota de manzana, arándano y nuez, acompañado de helado.</div></div><div class="price">$120</div></div>
+        <div class="modal-item"><div><div class="name">Tiramisú</div><div class="desc">Bizcocho de almendra, jarabe de café, mousse de licor 43, frutos rojos, helado y láminas de cocoa.</div></div><div class="price">$110</div></div>
+        <div class="modal-item"><div><div class="name">Tarta de Chocolate</div><div class="desc">Tarta de chocolate con café, frutos rojos, y helado.</div></div><div class="price">$120</div></div>
+      </div>
+
+      <div class="modal-category">
+        <h3>Café</h3>
+        <div class="modal-item"><div><div class="name">Americano</div></div><div class="price">$40</div></div>
+        <div class="modal-item"><div><div class="name">Capuchino</div></div><div class="price">$50</div></div>
+        <div class="modal-item"><div><div class="name">Carajillo</div></div><div class="price">$120</div></div>
+        <div class="modal-item"><div><div class="name">Expresso</div></div><div class="price">$40</div></div>
+        <div class="modal-item"><div><div class="name">Té</div></div><div class="price">$35</div></div>
+        <div class="modal-item"><div><div class="name">Affogato</div></div><div class="price">$65</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL RESERVA (FORMULARIO WHATSAPP)
+       ============================================================ -->
+  <div class="reserva-modal" id="reservaModal">
+    <div class="reserva-modal-content">
+      <button class="close-reserva" id="closeReservaModal">&times;</button>
+      <h2>Reservar mesa</h2>
+      <p class="sub">Completa el formulario y te contactaremos por WhatsApp.</p>
+      <form id="reservaForm">
+        <div>
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required />
+        </div>
+        <div>
+          <label for="telefono">Teléfono (con código de área)</label>
+          <input type="tel" id="telefono" placeholder="Ej. 3312345678" required />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" required />
+          </div>
+          <div>
+            <label for="hora">Hora</label>
+            <input type="time" id="hora" required />
+          </div>
+        </div>
+        <div>
+          <label for="comensales">Número de comensales</label>
+          <select id="comensales" required>
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10+</option>
+          </select>
+        </div>
+        <div>
+          <label for="mensaje">Mensaje adicional (opcional)</label>
+          <textarea id="mensaje" placeholder="Alergias, ocasión especial, etc."></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Enviar reserva por WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ------------------------------------------------------------
+      // 1. CURSOR PERSONALIZADO (Desktop)
+      // ------------------------------------------------------------
+      const isDesktop = window.innerWidth >= 1025;
+      const dot = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+
+      if (isDesktop) {
+        let mouseX = 0,
+          mouseY = 0;
+        let ringX = 0,
+          ringY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          dot.style.left = mouseX + 'px';
+          dot.style.top = mouseY + 'px';
+        });
+
+        function animateRing() {
+          ringX += (mouseX - ringX) * 0.12;
+          ringY += (mouseY - ringY) * 0.12;
+          ring.style.left = ringX + 'px';
+          ring.style.top = ringY + 'px';
+          requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        const hoverTargets = document.querySelectorAll('a, button, .menu-tab, .artesanal-item, .nav-cta');
+        hoverTargets.forEach(el => {
+          el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+          el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+        });
+      }
+
+      // ------------------------------------------------------------
+      // 2. NAVBAR SCROLL
+      // ------------------------------------------------------------
+      const navbar = document.getElementById('navbar');
+      let lastScroll = 0;
+
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScroll > 80) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+        lastScroll = currentScroll;
+
+        const backTop = document.getElementById('backTop');
+        if (currentScroll > 600) {
+          backTop.classList.add('visible');
+        } else {
+          backTop.classList.remove('visible');
+        }
+      });
+
+      // ------------------------------------------------------------
+      // 3. HERO ANIMACIÓN
+      // ------------------------------------------------------------
+      const hero = document.getElementById('hero');
+      window.addEventListener('load', () => {
+        hero.classList.add('loaded');
+      });
+
+      // ------------------------------------------------------------
+      // 4. MOBILE NAV
+      // ------------------------------------------------------------
+      const hamburger = document.getElementById('hamburger');
+      const mobileNav = document.getElementById('mobileNav');
+
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mobileNav.classList.toggle('open');
+        document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+      });
+
+      document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          mobileNav.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+
+      // ------------------------------------------------------------
+      // 5. SCROLL REVEAL
+      // ------------------------------------------------------------
+      const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // ------------------------------------------------------------
+      // 6. MENÚ TABS
+      // ------------------------------------------------------------
+      const tabs = document.querySelectorAll('.menu-tab');
+      const panels = document.querySelectorAll('.menu-panel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+
+          tab.classList.add('active');
+          const category = tab.getAttribute('data-category');
+          const targetPanel = document.querySelector(`.menu-panel[data-category="${category}"]`);
+          if (targetPanel) targetPanel.classList.add('active');
+        });
+      });
+
+      // ------------------------------------------------------------
+      // 7. MODAL MENÚ COMPLETO
+      // ------------------------------------------------------------
+      const modal = document.getElementById('menuModal');
+      const openBtn = document.getElementById('openMenuModal');
+      const closeBtn = document.getElementById('closeMenuModal');
+
+      function openModal() {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      // ------------------------------------------------------------
+      // 8. MODAL RESERVA (WHATSAPP)
+      // ------------------------------------------------------------
+      const reservaModal = document.getElementById('reservaModal');
+      const closeReserva = document.getElementById('closeReservaModal');
+      const reservaForm = document.getElementById('reservaForm');
+
+      function openReservaModal() {
+        reservaModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeReservaModal() {
+        reservaModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      document.getElementById('navReservarBtn').addEventListener('click', openReservaModal);
+      document.getElementById('mobileReservarBtn').addEventListener('click', openReservaModal);
+      document.getElementById('heroReservarBtn').addEventListener('click', openReservaModal);
+      document.getElementById('ctaReservarBtn').addEventListener('click', openReservaModal);
+
+      closeReserva.addEventListener('click', closeReservaModal);
+      reservaModal.addEventListener('click', (e) => {
+        if (e.target === reservaModal) closeReservaModal();
+      });
+
+      reservaForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nombre = document.getElementById('nombre').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const fecha = document.getElementById('fecha').value;
+        const hora = document.getElementById('hora').value;
+        const comensales = document.getElementById('comensales').value;
+        const mensaje = document.getElementById('mensaje').value.trim();
+
+        if (!nombre || !telefono || !fecha || !hora) {
+          alert('Por favor llena todos los campos obligatorios.');
+          return;
+        }
+
+        let text = `Hola, quisiera hacer una reserva en Mandarina Experiencia Culinaria.%0A%0A`;
+        text += `Nombre: ${nombre}%0A`;
+        text += `Teléfono: ${telefono}%0A`;
+        text += `Fecha: ${fecha}%0A`;
+        text += `Hora: ${hora}%0A`;
+        text += `Comensales: ${comensales}%0A`;
+        if (mensaje) {
+          text += `Mensaje adicional: ${mensaje}%0A`;
+        }
+        text += `%0A¡Esperamos su visita!`;
+
+        const numero = '523951067061';
+        const url = `https://wa.me/${numero}?text=${text}`;
+        window.open(url, '_blank');
+
+        closeReservaModal();
+        reservaForm.reset();
+      });
+
+      // ------------------------------------------------------------
+      // 9. BOTÓN VOLVER ARRIBA
+      // ------------------------------------------------------------
+      document.getElementById('backTop').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // ------------------------------------------------------------
+      // 10. SMOOTH SCROLL
+      // ------------------------------------------------------------
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          const target = document.querySelector(targetId);
+          if (target) {
+            e.preventDefault();
+            const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
+            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+        });
+      });
+
+      // ------------------------------------------------------------
+      // 11. PARALLAX SUTIL
+      // ------------------------------------------------------------
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroBg = document.querySelector('.hero-bg');
+        if (heroBg && scrolled < window.innerHeight) {
+          heroBg.style.transform = `scale(1.05) translateY(${scrolled * 0.06}px)`;
+        }
+      });
+
+    })();
+  </script>
+
+</body>
+</html>
